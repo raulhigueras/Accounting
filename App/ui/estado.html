@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <label id="income" style="color: green"></label><br />
+    <label id="outcome" style="color: red"></label>
+    <hr />
+    <label id="total"></label>
+    
+    <br /><br />
+    <select id="select_month">
+      <option value=-1>Todos</option>
+      <option value=0>Enero</option>
+      <option value=1>Febrero</option>
+      <option value=2>Marzo</option>
+      <option value=3>Abril</option>
+      <option value=4>Mayo</option>
+      <option value=5>Junio</option>
+      <option value=6>Julio</option>
+      <option value=7>Agosto</option>
+      <option value=8>Septiembre</option>
+      <option value=9>Octubre</option>
+      <option value=10>Noviembre</option>
+      <option value=11>Diciembre</option>
+    </select>
+    <button onclick="run()"> RUN </button> 
+    
+    <script type="text/javascript">
+    
+    function updateNums(nums) {
+      var label_income = document.getElementById("income");
+      var label_outcome = document.getElementById("outcome");
+      var label_total = document.getElementById("total");
+
+      label_income.innerHTML = nums["income"];
+      label_outcome.innerHTML = nums["outcome"];
+      label_total.innerHTML = nums["total"];
+    }
+    
+    function run() {
+      var select_month = document.getElementById("select_month");
+      google.script.run.withSuccessHandler(updateNums).getNums(select_month.value);
+    }
+    
+    </script>
+    
+  </body>
+</html>
+
+

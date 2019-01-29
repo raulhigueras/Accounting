@@ -1,0 +1,63 @@
+<script type="text/javascript">
+function writePrice(entry) {
+  var price = entry.Precio;
+  var input_amount = document.getElementById("input_amount");
+  console.log("Writing price " + price + " " + input_amount.value);
+  if (price && input_amount.value) {
+    console.log("Success in writing");
+    var input_total = document.getElementById("input_total");
+    input_total.value = price * input_amount.value;
+  }
+}
+
+function set_price(element) {
+  var input_products = document.getElementById("input_products");
+  google.script.run.withSuccessHandler(writePrice).getEntry("Productos", "Nombre", input_products.value);
+}
+
+function new_client() {
+  google.script.run.withSuccessHandler(getAutocomplete).clientPrompt();
+}
+
+function new_product() {
+  google.script.run.withSuccessHandler(getAutocomplete).productPrompt();
+}
+
+function submit() {
+  console.log("Submit clicked");
+  var input_products = document.getElementById("input_products");
+  var input_amount = document.getElementById("input_amount");
+  var input_clients = document.getElementById("input_clients");
+  var checkbox_sold = document.getElementById("checkbox_sold");
+  var input_total = document.getElementById("input_total");
+  if (input_products.value && input_amount.value && input_clients.value) {
+    var d = new Date();
+    var entry = {
+      "Fecha" : d.toLocaleDateString("es-ES"),
+      "Cantidad": input_amount.value,
+      "Vendido": checkbox_sold.checked,
+      "Producto": input_products.value,
+      "Cliente": input_clients.value,
+      "Ingreso": input_total.value,
+    }
+    google.script.run.insertEntry("Ventas", entry);
+  }
+}
+
+function setAutocomplete(autocomplete_object){
+  var elems = document.querySelectorAll('.autocomplete-products');
+  var instances = M.Autocomplete.init(elems, {
+    data : autocomplete_object["Products"],
+  });
+  var elems2 = document.querySelectorAll('.autocomplete-clients');
+  var instances2 = M.Autocomplete.init(elems2, {
+    data : autocomplete_object["Clients"],
+  });
+}
+
+function getAutocomplete() {
+  google.script.run.withSuccessHandler(setAutocomplete).getAutocompleteObject()
+}
+
+getAutocomplete();
+</script>

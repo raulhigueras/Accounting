@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+  </head>
+  <body>
+    <div id="form">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea_description" class="materialize-textarea"></textarea>
+          <label for="textarea_description">Descripción: </label>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="input-field col s8">
+          <input id="input_shop" type="text" class="validate">
+          <label for="input_shop">Tienda</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="input_price" type="number" class="validate" />
+          <label for="price">Precio</label>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col">
+          <button class="waves-effect waves-light btn" onClick="submit()">guardar</button>
+        </div>
+      </div>
+    </div>
+    
+    <script type="text/javascript">
+      function submit() {
+        var textarea_description = document.getElementById("textarea_description");
+        var input_price = document.getElementById("input_price");
+        var input_shop = document.getElementById("input_shop");
+        if (textarea_description.value && input_price.value && input_shop.value) {
+          var d = new Date();
+          var entry = {
+            "Fecha" : d.toLocaleDateString("es-ES"),
+            "Tienda" : input_shop.value, 
+            "Descripcion" : textarea_description.value,
+            "Precio" : input_price.value,
+          }
+          google.script.run.insertEntry("Gastos", entry);
+        }
+      }
+    </script>
+    
+  </body>
+</html>
+
+
